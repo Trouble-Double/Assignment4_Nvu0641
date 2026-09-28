@@ -3,20 +3,18 @@
 #include <string.h>
 #include "item.h"
  
-/* We are always making 5 items in this program */
+/* it is going to making 5 items in this program */
 #define NUM_ITEMS 5
  
 /* This function fills in ONE item in the array.
-   "index" tells us which spot in the array to fill in. */
+   "index" tells it which spot in the array to fill in. */
 void add_item(Item *item_list, double price, char *sku, char *category, char *name, int index)
 {
-  /* price is just a number, so we can copy it directly */
+  /* price is just a number, so it can copy it directly */
   item_list[index].price = price;
  
-  /* sku, category, and name are strings (char *), so we have to
-     allocate memory for them ourselves before we can store them.
-     strlen(sku) gives us the length of the word, and we add 1
-     for the null character '\0' that ends every string. */
+  /* sku, category, and name are being
+     allocate memory for this */
 
   item_list[index].sku = malloc(strlen(sku) + 1);
   strcpy(item_list[index].sku, sku);
@@ -72,13 +70,13 @@ void print_items(Item *item_list, int size)
     printf("item name = %s\n", item_list[i].name);
     printf("item sku = %s\n", item_list[i].sku);
     printf("item category = %s\n", item_list[i].category);
-    printf("item price = %f\n", item_list[i].price);
+    printf("item price = %.2f\n", item_list[i].price);
   }
 }
  
 int main(int argc, char *argv[])
 {
-  /* Step 2: make space for 5 items, but don't fill them in yet */
+  /* make space for 5 items, but don't fill them in yet */
   Item *item_list = malloc(NUM_ITEMS * sizeof(Item));
  
   /* make sure malloc worked */
@@ -88,21 +86,21 @@ int main(int argc, char *argv[])
     return 1;
   }
  
-  /* Step 2 (continued): now fill in each item using add_item */
+  /* now fill in each item using add_item */
   add_item(item_list, 5.00, "19282", "breakfast", "reese's cereal", 0);
   add_item(item_list, 3.95, "79862", "dairy",     "milk",           1);
   add_item(item_list, 7.50, "14512", "dairy",     "eggs",           2);
   add_item(item_list, 9.25, "33021", "beverages", "coffee",         3);
   add_item(item_list, 5.70, "60417", "bakery",    "bread",          4);
  
-  /* Step 5: print all the items */
+  /* print all the items */
   print_items(item_list, NUM_ITEMS);
  
-  /* Step 6: print the average price */
+  /* print the average price */
   printf("###############\n");
-  printf("average price of items = %f\n", average_price(item_list, NUM_ITEMS));
+  printf("average price of items = %.2f\n", average_price(item_list, NUM_ITEMS));
  
-  /* Step 4: if the user gave us a command line argument,
+  /* if the user gave us a command line argument,
      treat it as a SKU and search for it. */
   if (argc >= 2)
   {
@@ -111,14 +109,8 @@ int main(int argc, char *argv[])
     int found = 0; /* we will set this to 1 if we find the item */
  
     /* Keep looking as long as it still have items left to check (ct < NUM_ITEMS)
-       and the current item's sku does not match what we're looking for.
- 
-       reminder: ct < NUM_ITEMS must come FIRST. Because if ct < NUM_ITEMS is false,
-       C will not even bother checking the strcmp() part. This means it never tries to read
-       item_list[NUM_ITEMS], which would be outside the array (a bug!).
-       If i swap the order and put strcmp() first, the program can crash
-       when the sku is not found, because it will try to compare against
-       an item that does not exist. */
+       and the current item's sku does not match what it would be looking for.*/
+
     while (ct < NUM_ITEMS && strcmp(item_list[ct].sku, sku_to_find) != 0)
     {
       ct = ct + 1;
@@ -145,7 +137,7 @@ int main(int argc, char *argv[])
     }
   }
  
-  /* Step 7: free all the memory we allocated */
+  /*  free all the memory we allocated */
   free_items(item_list, NUM_ITEMS);
  
   return 0;
